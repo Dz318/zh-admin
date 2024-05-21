@@ -7,12 +7,12 @@
           <a-form-item
             :label="$t('account.settings.basic.nickname')"
           >
-            <a-input :placeholder="$t('account.settings.basic.nickname-message')" />
+            <a-input :placeholder="$t('account.settings.basic.nickname-message')" v-model="userInfo.username"/>
           </a-form-item>
           <a-form-item
             :label="$t('account.settings.basic.profile')"
           >
-            <a-textarea rows="4" :placeholder="$t('account.settings.basic.profile-message')"/>
+            <a-textarea rows="4" :placeholder="$t('account.settings.basic.profile-message')" v-model="userInfo.intro"/>
           </a-form-item>
 
           <a-form-item
@@ -23,7 +23,7 @@
           </a-form-item>
 
           <a-form-item>
-            <a-button type="primary">{{ $t('account.settings.basic.update') }}</a-button>
+            <a-button type="primary" @click="update()">{{ $t('account.settings.basic.update') }}</a-button>
           </a-form-item>
         </a-form>
 
@@ -48,6 +48,7 @@
 <script>
 import AvatarModal from './AvatarModal'
 import { baseMixin } from '@/store/app-mixin'
+import { mapState } from 'vuex'
 
 export default {
   mixins: [baseMixin],
@@ -75,9 +76,18 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState({
+      // 获取用户信息
+      userInfo: state => state.user.info
+    })
+  },
   methods: {
     setavatar (url) {
       this.option.img = url
+    },
+    update () {
+      console.log(this.userInfo)
     }
   }
 }

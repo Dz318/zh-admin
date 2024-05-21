@@ -8,6 +8,7 @@
 <script>
 import AvatarDropdown from './AvatarDropdown'
 import SelectLang from '@/components/SelectLang'
+import { mapState } from 'vuex'
 
 export default {
   name: 'RightContent',
@@ -45,12 +46,16 @@ export default {
         'ant-pro-global-header-index-right': true,
         [`ant-pro-global-header-index-${(this.isMobile || !this.topMenu) ? 'light' : this.theme}`]: true
       }
-    }
+    },
+    ...mapState({
+      // 获取用户信息
+      userInfo: state => state.user.info
+    })
   },
   mounted () {
     setTimeout(() => {
       this.currentUser = {
-        name: 'Serati Ma'
+        name: this.userInfo.username
       }
     }, 1500)
   }
