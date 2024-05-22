@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 const api = {
-  user: '/user',
+  user: '/api/user',
   role: '/role',
   service: '/service',
   permission: '/permission',
@@ -10,6 +10,17 @@ const api = {
 }
 
 export default api
+
+export function updateUser (parameter) {
+  return request({
+    url: api.user + '/updateUserInfo',
+    method: 'post',
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
 
 export function getUserList (parameter) {
   return request({

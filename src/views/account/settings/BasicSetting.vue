@@ -48,7 +48,8 @@
 <script>
 import AvatarModal from './AvatarModal'
 import { baseMixin } from '@/store/app-mixin'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+import { updateUser } from '@/api/manage'
 
 export default {
   mixins: [baseMixin],
@@ -83,11 +84,28 @@ export default {
     })
   },
   methods: {
+    ...mapActions(['GetInfo']),
     setavatar (url) {
       this.option.img = url
     },
     update () {
-      console.log(this.userInfo)
+      const {
+        GetInfo
+      } = this
+      console.log(typeof this.userInfo)
+      this.userInfo.role = null
+      updateUser(this.userInfo).then(res => {
+        if (res.code === 200) {
+          this.$notification.success({
+            message: '更新成功'
+          })
+          GetInfo().then(rs => {
+            console.log(rs)
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
 }
